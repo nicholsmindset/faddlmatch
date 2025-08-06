@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes as RouterRoutes, Route } from "react-router-dom";
-import ScrollToTop from "components/ScrollToTop";
-import ErrorBoundary from "components/ErrorBoundary";
+import ScrollToTop from "./components/ScrollToTop";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { StripeProvider } from "./contexts/StripeContext";
-import NotFound from "pages/NotFound";
+import NotFound from "./pages/NotFound";
 import UserLogin from './pages/user-login';
 import MatchDiscoverySearch from './pages/match-discovery-search';
 import UserRegistration from './pages/user-registration';
