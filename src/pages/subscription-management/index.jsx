@@ -131,8 +131,8 @@ const SubscriptionManagement = () => {
           return;
         }
       } else {
-        // Upgrade to paid tier - redirect to payment flow
-        navigate('/subscription-management?upgrade=' + plan?.tier);
+        // Upgrade to paid tier - redirect to Stripe payment flow
+        navigate('/stripe-payment-integration?tier=' + plan?.tier);
       }
     } catch (error) {
       setError('Failed to update subscription');
