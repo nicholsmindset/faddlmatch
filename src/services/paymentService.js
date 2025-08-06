@@ -48,13 +48,13 @@ class PaymentService {
       patience: {
         name: 'Patience', 
         price: 'SGD 18',
-        priceId: process.env.NODE_ENV === 'production' ? 'price_1234567890' : 'price_test_patience_18_sgd',
+        priceId: 'price_1RpOh4DGNasEu2DUS6BDFnLX',
         features: ['Advanced matching', '15 daily matches', 'Priority messaging', 'Read receipts', 'Profile verification']
       },
       reliance: {
         name: 'Reliance',
         price: 'SGD 23', 
-        priceId: process.env.NODE_ENV === 'production' ? 'price_0987654321' : 'price_test_reliance_23_sgd',
+        priceId: 'price_1RpOhhDGNasEu2DUqLAT8YI9',
         features: ['Premium matching', 'Unlimited matches', 'VIP messaging', 'All filters', 'Priority support']
       }
     };
