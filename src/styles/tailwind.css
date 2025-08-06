@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* FADDL Brand Colors - Elegant Muslim Matrimony */
+    --color-emerald-green: #22c55e; /* Primary - Emerald Green */
+    --color-bronze: #887679; /* Secondary - Bronze */
+    --color-ivory-cream: #FEF7F0; /* Background - Ivory Cream */
+    --color-midnight-navy: #1e293b; /* Text - Midnight Navy */
+    --color-muted-bronze: #a8969a; /* Accent - Muted Bronze */
+    
+    /* Core System Colors */
+    --color-background: #FEF7F0; /* Ivory Cream */
+    --color-foreground: #1e293b; /* Midnight Navy */
+    --color-border: #E5E7EB; /* gray-200 */
+    --color-input: #FFFFFF; /* white */
+    --color-ring: #22c55e; /* Emerald Green */
+    
+    /* Card & Surface Colors */
+    --color-card: #FFFFFF; /* white */
+    --color-card-foreground: #1e293b; /* Midnight Navy */
+    --color-popover: #FFFFFF; /* white */
+    --color-popover-foreground: #1e293b; /* Midnight Navy */
+    
+    /* Muted Colors */
+    --color-muted: #F3F4F6; /* gray-100 */
+    --color-muted-foreground: #a8969a; /* Muted Bronze */
+    
+    /* Primary Colors - Emerald Green */
+    --color-primary: #22c55e; /* Emerald Green */
+    --color-primary-foreground: #FFFFFF; /* white */
+    
+    /* Secondary Colors - Bronze */
+    --color-secondary: #887679; /* Bronze */
+    --color-secondary-foreground: #FFFFFF; /* white */
+    
+    /* Accent Colors - Premium Purple */
+    --color-accent: #8B5CF6; /* violet-500 */
+    --color-accent-foreground: #FFFFFF; /* white */
+    
+    /* Destructive Colors */
+    --color-destructive: #EF4444; /* red-500 */
+    --color-destructive-foreground: #FFFFFF; /* white */
+    
+    /* Success Colors */
+    --color-success: #22c55e; /* Emerald Green */
+    --color-success-foreground: #FFFFFF; /* white */
+    
+    /* Warning Colors */
+    --color-warning: #F59E0B; /* amber-500 */
+    --color-warning-foreground: #FFFFFF; /* white */
+    
+    /* Error Colors */
+    --color-error: #EF4444; /* red-500 */
+    --color-error-foreground: #FFFFFF; /* white */
+    
+    /* Text Colors */
+    --color-text-primary: #1e293b; /* Midnight Navy */
+    --color-text-secondary: #a8969a; /* Muted Bronze */
+    
+    /* Surface Colors */
+    --color-surface: #FFFFFF; /* white */
+    
+    /* Border Radius */
+    --radius: 8px;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+  }
+  
+  .font-caption {
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* FADDL Brand Typography */
+  .font-cinzel {
+    font-family: 'Cinzel', serif;
+  }
+  
+  .font-lato {
+    font-family: 'Lato', sans-serif;
+  }
+}
+
+@layer components {
+  /* Islamic Geometric Pattern Background */
+  .islamic-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322c55e' fill-opacity='0.05'%3E%3Cpath d='M30 30l15-15v30l-15-15zm0 0l-15 15h30l-15-15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  /* Contextual Blur Effect */
+  .backdrop-blur-privacy {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Subscription Tier Indicators */
+  .tier-intention {
+    @apply border-l-4;
+    border-color: #22c55e; /* Emerald Green */
+  }
+  
+  .tier-patience {
+    @apply border-l-4;
+    border-color: #887679; /* Bronze */
+  }
+  
+  .tier-reliance {
+    @apply border-l-4;
+    border-color: #8B5CF6; /* Premium Purple */
+  }
+  
+  /* Elevation System */
+  .elevation-1 {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .elevation-2 {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .elevation-3 {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .elevation-4 {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Loading Animation */
+  .pulse-gentle {
+    animation: pulse-gentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  @keyframes pulse-gentle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  /* Smooth Transitions */
+  .transition-smooth {
+    transition: all 200ms ease-out;
+  }
+  
+  .transition-height {
+    transition: height 300ms ease-out;
+  }
+
+  /* FADDL Brand Color Classes */
+  .text-emerald-green {
+    color: #22c55e;
+  }
+  
+  .text-bronze {
+    color: #887679;
+  }
+  
+  .text-midnight-navy {
+    color: #1e293b;
+  }
+  
+  .text-muted-bronze {
+    color: #a8969a;
+  }
+  
+  .bg-emerald-green {
+    background-color: #22c55e;
+  }
+  
+  .bg-bronze {
+    background-color: #887679;
+  }
+  
+  .bg-ivory-cream {
+    background-color: #FEF7F0;
+  }
+  
+  .bg-midnight-navy {
+    background-color: #1e293b;
+  }
+  
+  .border-emerald-green {
+    border-color: #22c55e;
+  }
+  
+  .border-bronze {
+    border-color: #887679;
+  }
+}
+
+@layer utilities {
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .transition-smooth,
+    .transition-height,
+    .pulse-gentle {
+      transition: none;
+      animation: none;
+    }
+  }
+  
+  /* Focus Styles for Accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+  
+  /* Text Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
