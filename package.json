@@ -34,6 +34,7 @@
     "@stripe/stripe-js": "^7.8.0",
     "@supabase/supabase-js": "^2.53.0",
     "@tanstack/react-query": "^5.84.1",
+    "@sentry/react": "^8.20.0",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -55,7 +56,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build --sourcemap",
+    "build": "vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {

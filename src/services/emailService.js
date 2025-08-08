@@ -4,83 +4,40 @@
  */
 class EmailService {
   constructor() {
-    this.apiKey = import.meta.env?.VITE_RESEND_API_KEY;
-    this.baseURL = 'https://api.resend.com';
     this.fromEmail = import.meta.env?.VITE_RESEND_FROM_EMAIL || 'onboarding@resend.dev';
-    this.isConfigured = Boolean(this.apiKey && this.apiKey !== 'your-resend-api-key-here');
   }
 
   /**
-   * Check if email service is properly configured
-   */
-  isServiceAvailable() {
-    return this.isConfigured;
-  }
-
-  /**
-   * Send email via Resend API
+   * Send email via Supabase Edge Function (server-side)
    * @param {Object} emailData - Email configuration
    * @param {string[]} emailData.to - Recipient email addresses
    * @param {string} emailData.subject - Email subject
    * @param {string} emailData.html - HTML content
-   * @param {string} emailData.text - Plain text content (optional)
-   * @returns {Promise<Object>} Resend API response
+   * @param {string} [emailData.text] - Plain text content (optional)
+   * @param {string} [emailData.emailType] - A logical type for server tagging/analytics
+   * @param {Object} [emailData.metadata] - Optional metadata to attach
    */
   async sendEmail(emailData) {
     try {
-      if (!this.isServiceAvailable()) {
-        console.warn('Email service not configured - Resend API key missing or invalid');
-        // Return mock response for development
-        return {
-          id: `mock-${Date.now()}`,
-          from: this.fromEmail,
-          to: emailData?.to,
-          subject: emailData?.subject,
-          created_at: new Date()?.toISOString(),
-          status: 'queued',
-          _mock: true
-        };
-      }
+      const { supabase } = await import('../lib/supabase');
 
-      const response = await fetch(`${this.baseURL}/emails`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: this.fromEmail,
+      const { data, error } = await supabase?.functions?.invoke('send-email', {
+        body: {
           to: Array.isArray(emailData?.to) ? emailData?.to : [emailData?.to],
           subject: emailData?.subject,
           html: emailData?.html,
-          text: emailData?.text || undefined,
-          tags: [
-            { name: 'app', value: 'faddlmatch' },
-            { name: 'environment', value: import.meta.env?.MODE || 'development' }
-          ]
-        }),
+          emailType: emailData?.emailType || 'general',
+          metadata: emailData?.metadata || undefined,
+        }
       });
 
-      if (!response?.ok) {
-        const errorData = await response?.json()?.catch(() => null);
-        throw new Error(`Email send failed: ${response.statusText} ${errorData?.message || ''}`);
+      if (error) {
+        throw new Error(`Email send failed: ${error?.message || 'Unknown error'}`);
       }
 
-      return await response?.json();
+      return data;
     } catch (error) {
       console.error('Email service error:', error);
-      
-      // If it's a configuration error, provide helpful guidance
-      if (error?.message?.includes('Resend API key not configured')) {
-        console.error(`
-🔧 Email Configuration Required:
-1. Get your Resend API key from https://resend.com/api-keys
-2. Add VITE_RESEND_API_KEY=your_actual_key to your .env file
-3. Optionally set VITE_RESEND_FROM_EMAIL=noreply@yourdomain.com
-4. Restart your development server
-        `);
-      }
-      
       throw error;
     }
   }
@@ -93,8 +50,10 @@ class EmailService {
       to: [userEmail],
       subject: 'Welcome to FaddlMatch - Your Journey Begins! 🌟',
       html: this.generateWelcomeEmailTemplate(userName),
+      emailType: 'welcome',
+      metadata: { userEmail }
     };
-    
+
     return await this.sendEmail(emailData);
   }
 
@@ -106,8 +65,10 @@ class EmailService {
       to: [userEmail],
       subject: `New Match Found! ${compatibilityScore}% Compatibility 💚`,
       html: this.generateMatchNotificationTemplate(userName, matchName, compatibilityScore),
+      emailType: 'match_notification',
+      metadata: { userEmail, matchName, compatibilityScore }
     };
-    
+
     return await this.sendEmail(emailData);
   }
 
@@ -119,8 +80,10 @@ class EmailService {
       to: [userEmail],
       subject: `New Message from ${senderName} 💬`,
       html: this.generateMessageNotificationTemplate(userName, senderName),
+      emailType: 'message_notification',
+      metadata: { userEmail, senderName }
     };
-    
+
     return await this.sendEmail(emailData);
   }
 
@@ -132,8 +95,10 @@ class EmailService {
       to: [userEmail],
       subject: `Welcome to ${planName} Plan! 🎉`,
       html: this.generateSubscriptionConfirmationTemplate(userName, planName, features),
+      emailType: 'subscription_confirmation',
+      metadata: { userEmail, planName }
     };
-    
+
     return await this.sendEmail(emailData);
   }
 
@@ -145,8 +110,10 @@ class EmailService {
       to: [userEmail],
       subject: 'We received your message - FaddlMatch Support',
       html: this.generateContactFormConfirmationTemplate(userName, subject),
+      emailType: 'contact_confirmation',
+      metadata: { userEmail, subject }
     };
-    
+
     return await this.sendEmail(emailData);
   }
 

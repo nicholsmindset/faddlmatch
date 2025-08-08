@@ -74,6 +74,16 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let mounted = true;
 
+    // If Supabase isn't configured, skip auth setup gracefully
+    if (!supabase) {
+      if (mounted) {
+        setUser(null);
+        setUserProfile(null);
+        setLoading(false);
+      }
+      return () => { mounted = false; };
+    }
+
     // Get initial session
     const getInitialSession = async () => {
       try {
@@ -133,7 +143,7 @@ export const AuthProvider = ({ children }) => {
 
     return () => {
       mounted = false;
-      subscription?.unsubscribe();
+      subscription?.unsubscribe?.();
       if (sessionRefreshInterval) {
         clearInterval(sessionRefreshInterval);
       }

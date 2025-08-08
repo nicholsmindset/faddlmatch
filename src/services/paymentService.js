@@ -5,6 +5,10 @@ class PaymentService {
     const { data: { session } } = await supabase?.auth?.getSession();
     if (!session) throw new Error('Not authenticated');
 
+    if (!priceId) {
+      throw new Error('Missing Stripe price ID');
+    }
+
     const response = await fetch(`${import.meta.env?.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`, {
       method: 'POST',
       headers: {
@@ -36,7 +40,7 @@ class PaymentService {
     return data;
   }
 
-  // Subscription pricing configuration
+  // Subscription pricing configuration from environment
   getSubscriptionPlans() {
     return {
       intention: {
@@ -48,13 +52,13 @@ class PaymentService {
       patience: {
         name: 'Patience', 
         price: 'SGD 18',
-        priceId: 'price_1RpOh4DGNasEu2DUS6BDFnLX',
+        priceId: import.meta.env?.VITE_STRIPE_PATIENCE_PRICE_ID,
         features: ['Advanced matching', '15 daily matches', 'Priority messaging', 'Read receipts', 'Profile verification']
       },
       reliance: {
         name: 'Reliance',
         price: 'SGD 23', 
-        priceId: 'price_1RpOhhDGNasEu2DUqLAT8YI9',
+        priceId: import.meta.env?.VITE_STRIPE_RELIANCE_PRICE_ID,
         features: ['Premium matching', 'Unlimited matches', 'VIP messaging', 'All filters', 'Priority support']
       }
     };
