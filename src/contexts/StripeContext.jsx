@@ -38,6 +38,7 @@ export const StripeProvider = ({ children }) => {
   };
 
   if (!stripePromise) {
+    console.warn('[Stripe] Missing VITE_STRIPE_PUBLISHABLE_KEY. Payment UI will be disabled.');
     return (
       <StripeContext.Provider value={{}}>
         {children}

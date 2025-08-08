@@ -113,6 +113,28 @@ const StripePaymentIntegration = () => {
     );
   }
 
+  if (!stripe) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-8 text-center">
+        <div>
+          <p className="text-foreground mb-2">Initializing payment…</p>
+          <p className="text-muted-foreground text-sm">If this persists, ensure Stripe publishable key is configured.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!clientSecret) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-8 text-center">
+        <div>
+          <p className="text-foreground mb-2">Preparing secure payment…</p>
+          <p className="text-muted-foreground text-sm">Please wait while we set up your session.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-ivory-cream islamic-pattern">
       <GlobalHeader />
