@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Islmaice{% endblock %}
+{% block content %}
+<h2>Welcome to Islmaice</h2>
+<p>Browse profiles to meet new people, or open your inbox to continue conversations.</p>
+<p>
+  <a href="{% url 'profiles:list' %}" role="button">Browse profiles</a>
+  <a href="{% url 'messaging:inbox' %}" role="button" class="secondary">Open inbox</a>
+</p>
+{% endblock %}

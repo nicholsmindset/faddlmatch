@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile.display_name }} - Profile{% endblock %}
+{% block content %}
+<article>
+  {% if profile.photo %}
+    <img class="profile-photo" src="{{ profile.photo.url }}" alt="{{ profile.display_name }}" />
+  {% endif %}
+  <h2>{{ profile.display_name }}</h2>
+  <p>{{ profile.age }} · {{ profile.gender|title }} · {{ profile.location }}</p>
+  <p>{{ profile.bio|linebreaks }}</p>
+  {% if profile.interests %}
+    <p><strong>Interests:</strong> {{ profile.interests }}</p>
+  {% endif %}
+  <p><a role="button" href="{% url 'messaging:start' profile.user.id %}">Send message</a></p>
+</article>
+{% endblock %}

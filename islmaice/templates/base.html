@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Islmaice{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <style>
+    .container { max-width: 960px; margin: 2rem auto; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    img.profile-photo { width: 100%; height: 220px; object-fit: cover; border-radius: 8px; background: #eee; }
+    header nav { padding: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <ul>
+        <li><strong><a href="/">Islmaice</a></strong></li>
+      </ul>
+      <ul>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'profiles:list' %}">Browse</a></li>
+          <li><a href="{% url 'messaging:inbox' %}">Messages</a></li>
+          <li>Hi, {{ user.username }}</li>
+          <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+        {% else %}
+          <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          <li><a href="{% url 'accounts:signup' %}">Sign up</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% for message in messages %}
+      <div role="alert">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

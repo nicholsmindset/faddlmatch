@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Inbox - Islmaice{% endblock %}
+{% block content %}
+<h2>Your conversations</h2>
+<ul>
+  {% for c in conversations %}
+    <li>
+      {% with others=c.participants.all|exclude:id=user.id %}
+        <a href="{% url 'messaging:thread' c.id %}">Conversation with {% for u in c.participants.all %}{% if u != user %}{{ u.username }}{% endif %}{% endfor %}</a>
+      {% endwith %}
+    </li>
+  {% empty %}
+    <li>No conversations yet. Start one from a profile.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

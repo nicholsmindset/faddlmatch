@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Browse Profiles - Islmaice{% endblock %}
+{% block content %}
+<h2>Browse profiles</h2>
+<form method="get" style="margin-bottom:1rem;">
+  <input type="search" name="q" placeholder="Search by name" value="{{ query }}" />
+  <button type="submit">Search</button>
+</form>
+<div class="grid">
+  {% for p in page_obj.object_list %}
+    <article>
+      {% if p.photo %}
+        <img class="profile-photo" src="{{ p.photo.url }}" alt="{{ p.display_name }}" />
+      {% else %}
+        <img class="profile-photo" src="https://placehold.co/400x220?text=No+Photo" alt="" />
+      {% endif %}
+      <h3><a href="{% url 'profiles:detail' p.id %}">{{ p.display_name }}</a></h3>
+      <p>{{ p.age }} · {{ p.location }}</p>
+      <p><a href="{% url 'messaging:start' p.user.id %}">Message</a></p>
+    </article>
+  {% empty %}
+    <p>No profiles found.</p>
+  {% endfor %}
+</div>
+<nav>
+  <ul>
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}&q={{ query }}">Previous</a></li>
+    {% endif %}
+    <li>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}
