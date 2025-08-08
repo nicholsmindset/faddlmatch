@@ -2,27 +2,22 @@ import React, { createContext, useContext } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe(import.meta.env?.VITE_STRIPE_PUBLISHABLE_KEY);
+const publishableKey = import.meta.env?.VITE_STRIPE_PUBLISHABLE_KEY;
+const stripePromise = publishableKey ? loadStripe(publishableKey) : null;
 
 const StripeContext = createContext();
 
-export const useStripeContext = () => {
-  const context = useContext(StripeContext);
-  if (!context) {
-    throw new Error('useStripeContext must be used within StripeProvider');
-  }
-  return context;
-};
+export const useStripeContext = () => useContext(StripeContext);
 
 export const StripeProvider = ({ children }) => {
   const appearance = {
     theme: 'stripe',
     variables: {
       colorPrimary: '#22c55e', // Emerald Green
+      colorText: '#1f2937',
       colorBackground: '#ffffff',
-      colorText: '#1e293b', // Midnight Navy
-      colorDanger: '#EF4444',
-      fontFamily: 'Lato, sans-serif',
+      colorDanger: '#ef4444',
+      fontFamily: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
       spacingUnit: '4px',
       borderRadius: '8px',
     },
@@ -42,6 +37,14 @@ export const StripeProvider = ({ children }) => {
     },
   };
 
+  if (!stripePromise) {
+    return (
+      <StripeContext.Provider value={{}}>
+        {children}
+      </StripeContext.Provider>
+    );
+  }
+
   return (
     <Elements stripe={stripePromise} options={{ appearance }}>
       <StripeContext.Provider value={{}}>
@@ -50,3 +53,5 @@ export const StripeProvider = ({ children }) => {
     </Elements>
   );
 };
+
+export default StripeContext;

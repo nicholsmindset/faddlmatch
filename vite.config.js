@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   resolve: {
     alias: {
@@ -19,7 +19,7 @@ export default defineConfig({
     }
   },
   build: {
-    sourcemap: true,
+    sourcemap: mode !== 'production',
     outDir: 'dist',
     rollupOptions: {
       output: {
@@ -30,10 +30,15 @@ export default defineConfig({
           ui: ['framer-motion', 'lucide-react']
         }
       }
-    }
+    },
+    minify: 'esbuild'
+  },
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+    legalComments: 'none'
   },
   server: {
     port: 5173,
     host: true
   }
-});
+}));

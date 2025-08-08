@@ -7,12 +7,15 @@ declare const Deno: {
   };
 };
 
+const allowedOrigin = Deno?.env?.get('ALLOWED_ORIGIN') || '*';
+const fromAddress = Deno?.env?.get('RESEND_FROM_EMAIL') || 'onboarding@resend.dev';
+
 serve(async (req) => {
   // ✅ CORS preflight
   if (req?.method === "OPTIONS") {
     return new Response("ok", {
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": allowedOrigin,
         "Access-Control-Allow-Methods": "POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
       }
@@ -30,7 +33,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'onboarding@resend.dev',
+        from: fromAddress,
         to: Array.isArray(to) ? to : [to],
         subject: subject,
         html: html,
@@ -60,7 +63,7 @@ serve(async (req) => {
     }), {
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": allowedOrigin
       }
     });
   } catch (error) {
@@ -68,13 +71,13 @@ serve(async (req) => {
     
     return new Response(JSON.stringify({
       success: false,
-      error: error.message,
+      error: (error as Error).message,
       timestamp: new Date().toISOString()
     }), {
       status: 500,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": allowedOrigin
       }
     });
   }
