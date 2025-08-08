@@ -9,8 +9,10 @@ declare const Deno: {
   };
 };
 
+const allowedOrigin = Deno?.env?.get('ALLOWED_ORIGIN') || '*';
+
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': allowedOrigin,
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type'
 };
 
@@ -58,9 +60,9 @@ serve(async (req) => {
     const subscriptionPricing = {
       'patience': { amount: 1800, description: 'Patience Plan - SGD 18/month' }, // Amount in cents
       'reliance': { amount: 2300, description: 'Reliance Plan - SGD 23/month' }
-    };
+    } as const;
 
-    const pricingInfo = subscriptionPricing?.[subscriptionTier];
+    const pricingInfo = subscriptionPricing?.[subscriptionTier as keyof typeof subscriptionPricing];
     if (!pricingInfo) {
       throw new Error('Invalid subscription tier');
     }
@@ -110,9 +112,9 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('Create payment intent error:', error?.message);
+    console.error('Create payment intent error:', (error as Error)?.message);
     return new Response(JSON.stringify({
-      error: error.message
+      error: (error as Error).message
     }), {
       headers: {
         ...corsHeaders,
