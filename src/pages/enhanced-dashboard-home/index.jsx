@@ -208,7 +208,15 @@ const EnhancedDashboardHome = () => {
 
         {/* Enhanced Welcome Header */}
         <div className="mb-8">
-          <div className="bg-white rounded-xl shadow-elevation-2 p-6 border border-bronze/20">
+                        <div className="bg-white rounded-xl shadow-elevation-2 p-6 border border-bronze/20">
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => navigate('/quran-challenge')}
+                    className="px-3 py-2 text-sm rounded-md border border-emerald-green text-emerald-green hover:bg-emerald-green hover:text-white transition"
+                  >
+                    Try Qur'an Challenge
+                  </button>
+                </div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-4">
                 <div className={`w-16 h-16 bg-${getTierColor(userTier)}/10 rounded-full flex items-center justify-center`}>

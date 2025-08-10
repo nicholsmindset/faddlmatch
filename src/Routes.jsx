@@ -18,6 +18,8 @@ const DashboardHome = lazy(() => import('./pages/dashboard-home'));
 const EnhancedDashboardHome = lazy(() => import('./pages/enhanced-dashboard-home'));
 const StripePaymentIntegration = lazy(() => import('./pages/stripe-payment-integration'));
 const ContactPage = lazy(() => import('./pages/contact-page'));
+const QuranChallengeHome = lazy(() => import('./pages/quran-challenge'));
+const QuranChallengePlay = lazy(() => import('./pages/quran-challenge/play'));
 
 const Routes = () => {
   return (
@@ -40,6 +42,8 @@ const Routes = () => {
               <Route path="/dashboard-home" element={<RequireAuth><DashboardHome /></RequireAuth>} />
               <Route path="/enhanced-dashboard-home" element={<EnhancedDashboardHome />} />
               <Route path="/contact-page" element={<ContactPage />} />
+              <Route path="/quran-challenge" element={<QuranChallengeHome />} />
+              <Route path="/quran-challenge/play" element={<QuranChallengePlay />} />
               <Route path="*" element={<NotFound />} />
             </RouterRoutes>
           </Suspense>
